@@ -1,0 +1,6 @@
+[Activity]
+name = PyCut
+bundle_id = edu.rit.PyCut
+exec = sugar-activity PyCutActivity.PyCutActivity
+icon = activity-generic
+activity_version = 1
