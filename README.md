@@ -7,11 +7,29 @@ PyCut is a pizza-making puzzle game made for the IGME-582 final project at the [
 
 ## Prerequisites
 
-In order to play PyCut, you will need to build the game by running these commands in a terminal.
+### On the XO
+
+In order to play PyCut for the XO, you will need to build the game by running these commands in a terminal.
 
 ```
 $ ./setup.py genpot
 $ ./setup.py build
+```
+
+### On another computer
+
+You will need to isntall some dependencies in order to play PyCut on your system.
+
+#### Fedora / CentOS / Red Hat-based distributions
+
+```
+$ sudo dnf install pygame
+```
+
+#### Debian / Ubuntu / apt-based distributions
+
+```
+$ sudo apt-get install python-pygame
 ```
 
 ## Running
