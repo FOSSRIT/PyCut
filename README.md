@@ -61,3 +61,7 @@ Otherwise, if you want to distribute the game onto a regular computer, run this 
 ```
 $ ./setup.py dist
 ```
+
+## Past examples
+
+* [brendan-w/planetary](https://github.com/brendan-w/planetary)
