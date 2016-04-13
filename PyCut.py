@@ -1,8 +1,8 @@
 #!/usr/bin/python
-import pygame
-from gi.repository import Gtk
+#import pygame
+#from gi.repository import Gtk
 
-
+"""
 class PyCut:
     def __init__(self):
         # Set up a clock for managing the frame rate.
@@ -81,10 +81,11 @@ class PyCut:
 
 # This function is called when the game is run directly from the command line:
 # ./TestGame.py
+"""
+import game
+
+
 def main():
-    pygame.init()
-    pygame.display.set_mode((0, 0), pygame.RESIZABLE)
-    game = PyCut()
     game.run()
 
 if __name__ == '__main__':
