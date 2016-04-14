@@ -2,8 +2,8 @@ import pygame
 import game
 
 class GameScene(game.SceneBase):
-    def __init__(self):
-        game.SceneBase.__init__(self)
+    def __init__(self, context):
+        game.SceneBase.__init__(self, context)
 
     def ProcessInput(self, events, pressed_keys):
         pass

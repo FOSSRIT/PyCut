@@ -2,18 +2,19 @@ import pygame
 import game
 
 class TitleScene(game.SceneBase):
-    def __init__(self):
-        game.SceneBase.__init__(self)
+    def __init__(self, context):
+        game.SceneBase.__init__(self, context)
 
     def ProcessInput(self, events, pressed_keys):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                 # Move to the next scene when the user pressed Enter
-                self.SwitchToScene(game.GameScene())
+                self.SwitchToScene(game.GameScene)
 
     def Update(self):
         pass
 
     def Render(self, screen):
         # For the sake of brevity, the title scene is a blank red screen
-        screen.fill((255, 0, 0))
+        screen.fill((0, 0, 0))
+        pygame.draw.rect(screen, (0, 100, 100), pygame.Rect(100, 100, 200, 200))
