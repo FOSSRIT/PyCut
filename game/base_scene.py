@@ -5,6 +5,7 @@ class SceneBase:
     def __init__(self, context):
         self.next = self
         self.context = context
+        self.screen = self.context.screen
 
     def ProcessInput(self, events, pressed_keys):
         print("uh-oh, you didn't override this in the child class")
@@ -12,7 +13,7 @@ class SceneBase:
     def Update(self):
         print("uh-oh, you didn't override this in the child class")
 
-    def Render(self, screen):
+    def Render(self):
         print("uh-oh, you didn't override this in the child class")
 
     def SwitchToScene(self, next_scene):

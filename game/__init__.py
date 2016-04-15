@@ -11,13 +11,20 @@ class PyCutGame():
         self.width = 600
         self.height = 500
         self.fps = 60
+        self.title = "PyCut"
+        self.font_name  = "freesans.ttf"
+        self.start_button = None
+        #everything necessary for the game should be initialized before here
+        #the context is established based on these details and passed along to the active scene
+        self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
         self.starting_scene = TitleScene(self)
         self.active_scene = self.starting_scene
+        """    def write(self, text, center, size=self.size):
+        = pygame.font.Font"""
 
-    def game_loop(self, scene):
+    def game_loop(self):
         pygame.init()
-        screen = pygame.display.set_mode((self.width, self.height))
 
         while self.active_scene != None:
             pressed_keys = pygame.key.get_pressed()
@@ -43,7 +50,7 @@ class PyCutGame():
 
             self.active_scene.ProcessInput(filtered_events, pressed_keys)
             self.active_scene.Update()
-            self.active_scene.Render(screen)
+            self.active_scene.Render()
 
             self.active_scene = self.active_scene.next
 
@@ -52,4 +59,4 @@ class PyCutGame():
 
 
     def run(self):
-        self.game_loop(self.starting_scene)
+        self.game_loop()

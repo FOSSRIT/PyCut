@@ -4,6 +4,7 @@ import game
 class TitleScene(game.SceneBase):
     def __init__(self, context):
         game.SceneBase.__init__(self, context)
+        self.start_button = context.start_button
 
     def ProcessInput(self, events, pressed_keys):
         for event in events:
@@ -14,7 +15,7 @@ class TitleScene(game.SceneBase):
     def Update(self):
         pass
 
-    def Render(self, screen):
+    def Render(self):
         # For the sake of brevity, the title scene is a blank red screen
-        screen.fill((0, 0, 0))
-        pygame.draw.rect(screen, (0, 100, 100), pygame.Rect(100, 100, 200, 200))
+        self.screen.fill((0, 0, 0))
+        pygame.draw.rect(self.screen, (0, 100, 100), pygame.Rect(100, 100, 200, 200))
