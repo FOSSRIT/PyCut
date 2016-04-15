@@ -1,8 +1,6 @@
 import pygame
 
-from .base_scene import SceneBase
-from .title_scene import TitleScene
-from .game_scene import GameScene
+from . import scenes, event_handlers, objects
 
 class PyCutGame():
     """docstring for PyCutGame"""
@@ -18,7 +16,7 @@ class PyCutGame():
         #the context is established based on these details and passed along to the active scene
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
-        self.starting_scene = TitleScene(self)
+        self.starting_scene = scenes.TitleScene(self)
         self.active_scene = self.starting_scene
         """    def write(self, text, center, size=self.size):
         = pygame.font.Font"""

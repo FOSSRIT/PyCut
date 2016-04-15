@@ -1,16 +1,16 @@
 import pygame
-import game
+from . import SceneBase, GameScene
 
-class TitleScene(game.SceneBase):
+class TitleScene(SceneBase):
     def __init__(self, context):
-        game.SceneBase.__init__(self, context)
+        SceneBase.__init__(self, context)
         self.start_button = context.start_button
 
     def ProcessInput(self, events, pressed_keys):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                 # Move to the next scene when the user pressed Enter
-                self.SwitchToScene(game.GameScene)
+                self.SwitchToScene(GameScene)
 
     def Update(self):
         pass

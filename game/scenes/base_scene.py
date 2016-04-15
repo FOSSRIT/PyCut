@@ -1,6 +1,3 @@
-import game
-
-
 class SceneBase:
     def __init__(self, context):
         self.next = self
