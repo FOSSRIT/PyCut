@@ -11,6 +11,6 @@ class GameScene(game.SceneBase):
     def Update(self):
         pass
 
-    def Render(self, screen):
+    def Render(self):
         # The game scene is just a blank blue screen
-        screen.fill((0, 0, 255))
+        self.screen.fill((0, 0, 255))
