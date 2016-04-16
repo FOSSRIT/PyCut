@@ -12,7 +12,7 @@ class PyCutGame():
         self.fps = 60
         self.title = "PyCut"
         self.font_path  = "game/assets/Roboto-Thin.ttf"
-
+        self.quit_attempt = False
         #everything necessary for the game should be initialized before here
         #the context is established based on these details and passed along to the active scene
         pygame.init()
@@ -33,18 +33,17 @@ class PyCutGame():
             # Event filtering
             filtered_events = []
             for event in pygame.event.get():
-                quit_attempt = False
                 if event.type == pygame.QUIT:
-                    quit_attempt = True
+                    self.quit_attempt = True
                 elif event.type == pygame.KEYDOWN:
                     alt_pressed = pressed_keys[pygame.K_LALT] or \
                                   pressed_keys[pygame.K_RALT]
                     if event.key == pygame.K_ESCAPE:
-                        quit_attempt = True
+                        self.quit_attempt = True
                     elif event.key == pygame.K_F4 and alt_pressed:
-                        quit_attempt = True
+                        self.quit_attempt = True
 
-                if quit_attempt:
+                if self.quit_attempt:
                     self.active_scene.Terminate()
                 else:
                     filtered_events.append(event)
@@ -58,6 +57,8 @@ class PyCutGame():
             pygame.display.flip()
             self.clock.tick(self.fps)
 
-
     def run(self):
         self.game_loop()
+
+    def quit(self):
+        self.quit_attempt = True
