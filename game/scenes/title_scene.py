@@ -11,6 +11,8 @@ class TitleScene(SceneBase):
                                 (self.context.height - self.title.height) // 2)
         self.start_button = Button(self.context, "Play Game")
         self.start_button.setPen(self.context.font_small)
+        self.start_button.setOnLeftClick(self.handleStartButtonClick)
+        self.start_button.setOnHover(self.handleStartButtonHover)
         self.start_button.setLocation((self.context.width - self.start_button.width) // 2,
                                       ((self.context.height - self.start_button.height) // 2) + self.title.height )
 
@@ -18,7 +20,16 @@ class TitleScene(SceneBase):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                 # Move to the next scene when the user pressed Enter
-                self.SwitchToScene(GameScene)
+                pass
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                self.start_button.isClicked(event)
+
+            if event.type == pygame.MOUSEBUTTONUP:
+                self.start_button.isClicked(event)
+
+            if event.type == pygame.MOUSEMOTION:
+                self.start_button.isHovered(event)
 
     def Update(self):
         pass
@@ -32,3 +43,12 @@ class TitleScene(SceneBase):
         #        ( (self.context.width - self.start_button.width) // 2,
         #         ((self.context.height - self.start_button.height) + self.title.get_height()) // 2))
         #pygame.draw.rect(self.screen, (0, 100, 100), pygame.Rect(100, 100, 200, 200))
+
+    """
+    helper methods below this point
+    """
+    def handleStartButtonHover(self):
+        pass
+
+    def handleStartButtonClick(self):
+        self.SwitchToScene(GameScene)
