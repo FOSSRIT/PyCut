@@ -1,18 +1,18 @@
 import pygame
 from . import SceneBase, GameScene
-from game.objects import Text
+from game.objects import Text, Button
 
 class TitleScene(SceneBase):
     def __init__(self, context):
         SceneBase.__init__(self, context)
-        self.start_button = None
         self.title = Text(self.context, self.context.title)
         self.title.setPen(self.context.font_large)
-        self.r_1 = 15
-        self.r_2 = 20
-        self.r_3 = 80
         self.title.setLocation( (self.context.width - self.title.width) // 2,
                                 (self.context.height - self.title.height) // 2)
+        self.start_button = Button(self.context, "Play Game")
+        self.start_button.setPen(self.context.font_small)
+        self.start_button.setLocation((self.context.width - self.start_button.width) // 2,
+                                      ((self.context.height - self.start_button.height) // 2) + self.title.height )
 
     def ProcessInput(self, events, pressed_keys):
         for event in events:
@@ -27,6 +27,7 @@ class TitleScene(SceneBase):
         # For the sake of brevity, the title scene is a blank red screen
         self.screen.fill((255, 255, 255))
         self.title.drawOn(self.screen)
+        self.start_button.drawOn(self.screen)
         #self.screen.blit(self.start_button.draw(),
         #        ( (self.context.width - self.start_button.width) // 2,
         #         ((self.context.height - self.start_button.height) + self.title.get_height()) // 2))
