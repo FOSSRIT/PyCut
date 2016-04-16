@@ -1,6 +1,6 @@
 import pygame
 
-from . import scenes, event_handlers, objects
+from . import scenes, events, objects
 
 class PyCutGame():
     """docstring for PyCutGame"""
