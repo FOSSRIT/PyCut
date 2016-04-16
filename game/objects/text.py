@@ -17,13 +17,16 @@ class Text():
         self.drawing = None
         self.draw()
 
+    """
+        update the text drawing surface.
+    """
     def draw(self):
         self.drawing = self.pen.render(self.text, True, self.color)
         self.width = self.drawing.get_width()
         self.height = self.drawing.get_height()
 
     """
-        draw on a surface 
+        draw on a surface
     """
     def drawOn(self, screen=None):
         if screen:
