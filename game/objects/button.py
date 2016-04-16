@@ -1,8 +1,10 @@
 import pygame
-
-class Button():
+from game.events import Clickable, Hoverable
+class Button(Clickable, Hoverable):
     """docstring for Button"""
     def __init__(self, context, label=""):
+        Clickable.__init__(self)
+        Hoverable.__init__(self)
         self.context = context
         self.label = label
         self.color = (0, 128, 0)
