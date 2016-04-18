@@ -1,6 +1,6 @@
 import pygame
 from . import SceneBase, GameScene
-from game.objects import Text, Button
+from game.objects import Text, Button, STATE
 
 class TitleScene(SceneBase):
     def __init__(self, context):
@@ -11,6 +11,8 @@ class TitleScene(SceneBase):
                                 (self.context.height - self.title.height) // 2)
         self.start_button = Button(self.context, "Play Game")
         self.start_button.setPen(self.context.font_small)
+        self.start_button.setPen(self.context.font, STATE.HOVER)
+        self.start_button.setBackgroundColor((176,224,230))
         self.start_button.setOnLeftClick(self.handleStartButtonClick)
         self.start_button.setOnHover(self.handleStartButtonHover)
         self.start_button.setLocation((self.context.width - self.start_button.width) // 2,
