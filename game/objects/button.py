@@ -21,10 +21,16 @@ class Button(Clickable, Hoverable):
         """
         for state in STATE:
             self.style[state] = dict()
-            self.style[state][SM.COLOR] = (0, 128, 0)
             self.style[state][SM.BACKGROUND_IMG] = None
             self.style[state][SM.BACKGROUND_COLOR] = None
-            self.style[state][SM.PEN] = self.context.font
+            #Any styling property with defaulst should be in
+            #the conditional below
+            if state == STATE.NORMAL:
+                self.style[state][SM.COLOR] = (0, 128, 0)
+                self.style[state][SM.PEN] = self.context.font
+            else:
+                self.style[state][SM.COLOR] = None
+                self.style[state][SM.PEN] = None
 
         self.drawing = None
         self.draw()
@@ -34,18 +40,30 @@ class Button(Clickable, Hoverable):
     """
     def draw(self):
         surf = None
+        color = self.style[self.state][SM.COLOR]
+        pen = self.style[self.state][SM.PEN]
+        if not color:
+            color = self.style[STATE.NORMAL][SM.COLOR]
+        if not pen:
+            pen = self.style[STATE.NORMAL][SM.PEN]
         if self.width and self.height:
             surf = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
-            if (self.style[self.state][SM.BACKGROUND_IMG] or
-                self.style[self.state][SM.BACKGROUND_COLOR]):
-                #TODO Handle case where there is a background image or color
-                pass
-            else:
-                text = self.style[self.state][SM.PEN].render(self.label, True, self.style[self.state][SM.COLOR])
-                surf.blit(text, ((self.width - text.get_width()) // 2,
-                             (self.height - text.get_height()) // 2 ))
+            #Various styles are handled bellow
+            #if there is a styling for current state, use it otherwise use the
+            #styling for the NORMAL state.
+            if self.style[self.state][SM.BACKGROUND_COLOR]:
+                surf.fill(self.style[self.state][SM.BACKGROUND_COLOR])
+            elif self.style[STATE.NORMAL][SM.BACKGROUND_COLOR]:
+                surf.fill(self.style[STATE.NORMAL][SM.BACKGROUND_COLOR])
+            if self.style[self.state][SM.BACKGROUND_IMG]:
+                surf.blit(self.style[self.state][SM.BACKGROUND_IMG], (0,0), self.width*self.height, special_flags = 0)
+            elif self.style[STATE.NORMAL][SM.BACKGROUND_IMG]:
+                surf.blit(self.style[STATE.NORMAL][SM.BACKGROUND_IMG], (0,0), self.width*self.height, special_flags = 0)
+            text = pen.render(self.label, True, color)
+            surf.blit(text, ((self.width - text.get_width()) // 2,
+                         (self.height - text.get_height()) // 2 ))
         else:
-            surf = self.style[self.state][SM.PEN].render(self.label, True, self.style[self.state][SM.COLOR])
+            surf = pen.render(self.label, True, color)
         self.drawing = surf
         self.width = self.drawing.get_width()
         self.height = self.drawing.get_height()
@@ -80,6 +98,13 @@ class Button(Clickable, Hoverable):
     """
     def setColor(self, color=(0, 128, 0), state=STATE.NORMAL):
         self.style[state][SM.COLOR] = color
+        self.draw()
+
+    """
+    change the background color
+    """
+    def setBackgroundColor(self, bg_color=pygame.SRCALPHA, state=STATE.NORMAL):
+        self.style[state][SM.BACKGROUND_COLOR] = bg_color
         self.draw()
 
     """

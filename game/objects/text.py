@@ -18,14 +18,22 @@ class Text(Hoverable, Clickable):
         self.style = dict()
         """
             Attributes that change due to state should be in the for loop below
+
+            Notes:
+                Only normal state has defaults, all others have None
         """
         for state in STATE:
             self.style[state] = dict()
-            self.style[state][SM.COLOR] = (0, 128, 0)
             self.style[state][SM.BACKGROUND_IMG] = None
             self.style[state][SM.BACKGROUND_COLOR] = None
-            self.style[state][SM.PEN] = self.context.font
-
+            #Any styling property with defaulst should be in
+            #the conditional below
+            if state == STATE.NORMAL:
+                self.style[state][SM.COLOR] = (0, 128, 0)
+                self.style[state][SM.PEN] = self.context.font
+            else:
+                self.style[state][SM.COLOR] = None
+                self.style[state][SM.PEN] = None
         self.drawing = None
         self.draw()
 
@@ -33,7 +41,13 @@ class Text(Hoverable, Clickable):
         update the text drawing surface.
     """
     def draw(self):
-        self.drawing = self.style[self.state][SM.PEN].render(self.text, True, self.style[self.state][SM.COLOR])
+        color = self.style[self.state][SM.COLOR]
+        pen = self.style[self.state][SM.PEN]
+        if not color:
+            color = self.style[STATE.NORMAL][SM.COLOR]
+        if not pen:
+            pen = self.style[STATE.NORMAL][SM.PEN]
+        self.drawing = pen.render(self.text, True, color)
         self.width = self.drawing.get_width()
         self.height = self.drawing.get_height()
 
