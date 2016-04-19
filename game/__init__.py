@@ -11,7 +11,7 @@ class PyCutGame():
         self.height = 500
         self.fps = 60
         self.title = "PyCut"
-        self.font_path  = "game/assets/Roboto-Thin.ttf"
+        self.font_path  = "game/assets/font/Roboto-Thin.ttf"
         self.quit_attempt = False
         #everything necessary for the game should be initialized before here
         #the context is established based on these details and passed along to the active scene
