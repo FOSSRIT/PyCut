@@ -1,19 +1,39 @@
 import pygame
+from game.events import Clickable, Hoverable
+from . import STATE, STYLES_NAMES as SM
 
-class Text():
+class Text(Hoverable, Clickable):
     """docstring for Text"""
     def __init__(self, context, text):
+        Clickable.__init__(self)
+        Hoverable.__init__(self)
         self.context = context
+        self.state = STATE.NORMAL
         self.text = text
-        self.color = (0, 128, 0)
-        self.background_img = None
-        self.background_color = None
         self.x = None
         self.y = None
         self.location = (0,0)
         self.width = None
         self.height = None
-        self.pen = self.context.font
+        self.style = dict()
+        """
+            Attributes that change due to state should be in the for loop below
+
+            Notes:
+                Only normal state has defaults, all others have None
+        """
+        for state in STATE:
+            self.style[state] = dict()
+            self.style[state][SM.BACKGROUND_IMG] = None
+            self.style[state][SM.BACKGROUND_COLOR] = None
+            #Any styling property with defaulst should be in
+            #the conditional below
+            if state == STATE.NORMAL:
+                self.style[state][SM.COLOR] = (0, 128, 0)
+                self.style[state][SM.PEN] = self.context.font
+            else:
+                self.style[state][SM.COLOR] = None
+                self.style[state][SM.PEN] = None
         self.drawing = None
         self.draw()
 
@@ -21,7 +41,13 @@ class Text():
         update the text drawing surface.
     """
     def draw(self):
-        self.drawing = self.pen.render(self.text, True, self.color)
+        color = self.style[self.state][SM.COLOR]
+        pen = self.style[self.state][SM.PEN]
+        if not color:
+            color = self.style[STATE.NORMAL][SM.COLOR]
+        if not pen:
+            pen = self.style[STATE.NORMAL][SM.PEN]
+        self.drawing = pen.render(self.text, True, color)
         self.width = self.drawing.get_width()
         self.height = self.drawing.get_height()
 
@@ -38,8 +64,8 @@ class Text():
     """
     change the font size
     """
-    def setPen(self, font):
-        self.pen = font
+    def setPen(self, font, state=STATE.NORMAL):
+        self.style[state][SM.PEN] = font
         self.draw()
 
     """
