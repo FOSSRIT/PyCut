@@ -16,8 +16,7 @@ class PyCutGame():
         self.quit_attempt = False
         #everything necessary for the game should be initialized before here
         #the context is established based on these details and passed along to the active scene
-        pygame.init()
-        self.screen = pygame.display.set_mode((self.width, self.height-60),pygame.RESIZABLE)
+        self.screen = pygame.display.get_surface()
         self.clock = pygame.time.Clock()
         self.font_large = pygame.font.Font(self.font_path, 72)
         self.font = pygame.font.Font(self.font_path, 24)
