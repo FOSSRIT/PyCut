@@ -5,18 +5,19 @@ from . import scenes, events, objects
 class PyCutGame():
     """docstring for PyCutGame"""
     def __init__(self):
-
         self.data = None
-        self.width = 600
-        self.height = 500
+        self.width = 1200
+        self.height = 900
         self.fps = 60
         self.title = "PyCut"
         self.font_path  = "game/assets/font/Roboto-Thin.ttf"
+        self.shop_background = pygame.image.load("game/assets/img/Background.png")
+        self.counter_top = pygame.image.load("game/assets/img/Countertop.png")
         self.quit_attempt = False
         #everything necessary for the game should be initialized before here
         #the context is established based on these details and passed along to the active scene
         pygame.init()
-        self.screen = pygame.display.set_mode((self.width, self.height))
+        self.screen = pygame.display.set_mode((self.width, self.height-60),pygame.RESIZABLE)
         self.clock = pygame.time.Clock()
         self.font_large = pygame.font.Font(self.font_path, 72)
         self.font = pygame.font.Font(self.font_path, 24)
