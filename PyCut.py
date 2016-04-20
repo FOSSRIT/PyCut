@@ -1,16 +1,12 @@
 #!/usr/bin/python
-import game
-
-class PyCut():
-    def __init__(self):
-        self.game_instance = game.PyCutGame()
-
-    # Calls The main game loop.
-    def run(self):
-        self.game_instance.run()
+import pygame
+from game import PyCutGame as PyCut
 
 def main():
-    PyCut().run()
+    pygame.init()
+    pygame.display.set_mode((0, 0), pygame.RESIZABLE)
+    game_instance = PyCut()
+    game_instance.run()
 
 if __name__ == '__main__':
     main()
