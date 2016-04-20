@@ -4,6 +4,12 @@ PyCut is a pizza-making puzzle game made for the IGME-582 final project at the [
 
 ![Pizza Pass minigame](https://upload.wikimedia.org/wikipedia/en/b/bd/Original_Zoombinis_Pizza_Pass.jpg)
 
+## About the project
+
+This project is a game designed to run on the One Laptop per Child XO laptops. You can find more information about the scope, background, and context of the project on our [wiki](https://github.com/jflory7/PyCut/wiki).
+
+You can also find more information about the project on the [SugarLabs wiki](https://wiki.sugarlabs.org/go/Activities/PyCut). We also hope to deploy this on the official SugarLabs download site in the near future.
+
 
 ## Prerequisites
 
