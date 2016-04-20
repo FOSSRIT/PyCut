@@ -65,3 +65,5 @@ $ ./setup.py dist
 ## Past examples
 
 * [brendan-w/planetary](https://github.com/brendan-w/planetary)
+* [ColdSauce/golems](https://github.com/ColdSauce/golems)
+* [MattGuerrette/ZeroQuest](https://github.com/MattGuerrette/ZeroQuest)
