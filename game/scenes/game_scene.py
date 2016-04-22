@@ -1,6 +1,6 @@
 import pygame
 from . import SceneBase
-from game.objects import Text, Button
+from game.objects import Text, Button, Pizza
 
 class GameScene(SceneBase):
     def __init__(self, context):
@@ -12,6 +12,7 @@ class GameScene(SceneBase):
         self.quit_button.setOnHover(self.handleQuitButtonHover)
         self.quit_button.setLocation((self.context.width - self.quit_button.width) - 5,
                                       ((self.context.height - self.quit_button.height)) - 5 )
+        self.pizza = Pizza(self.context)
 
     def ProcessInput(self, events, pressed_keys):
         for event in events:
@@ -38,6 +39,7 @@ class GameScene(SceneBase):
         self.screen.blit(self.context.counter_top,(0,0))
         self.quit_button.setLocation(50, 50)
         self.quit_button.drawOn(self.screen)
+        self.pizza.drawOn(self.screen)
 
     """
     helper methods below this point
