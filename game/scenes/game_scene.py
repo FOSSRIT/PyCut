@@ -9,7 +9,8 @@ class GameScene(SceneBase):
         self.createMessageBubble()
         self.pizza = Pizza(self.context)
         self.createToppingOptions()
-        self.count = 0
+        self.createTrashCan()
+        self.count = 0#for debugging
 
     def ProcessInput(self, events, pressed_keys):
         for event in events:
@@ -48,6 +49,7 @@ class GameScene(SceneBase):
         self.screen.fill((0, 0, 255))
         self.screen.blit(self.context.shop_background,(0,0))
         self.screen.blit(self.context.counter_top,(0,0))
+        self.screen.blit(self.trashCan, (1000,600))
         self.quit_button.setLocation(50, 50)
         self.quit_button.drawOn(self.screen)
         self.message_bubble.drawOn(self.screen)
@@ -104,3 +106,6 @@ class GameScene(SceneBase):
     def createMessageBubble(self):
         self.message_bubble = MessageBubble(self.context)
         self.message_bubble.addMessage("I need a pizza")
+
+    def createTrashCan(self):
+        self.trashCan = self.context.trash_can_img
