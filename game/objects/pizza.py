@@ -12,6 +12,7 @@ class Pizza():
         self.location = (self.x,self.y)
         self.width = 100
         self.height = 100
+        self.topics = []
         self.drawing = None
         self.draw()
 

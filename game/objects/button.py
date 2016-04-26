@@ -26,7 +26,7 @@ class Button(Clickable, Hoverable):
             #Any styling property with defaulst should be in
             #the conditional below
             if state == STATE.NORMAL:
-                self.style[state][SM.COLOR] = (0, 128, 0)
+                self.style[state][SM.COLOR] = (255, 255, 255)
                 self.style[state][SM.PEN] = self.context.font
             else:
                 self.style[state][SM.COLOR] = None
@@ -56,9 +56,9 @@ class Button(Clickable, Hoverable):
             elif self.style[STATE.NORMAL][SM.BACKGROUND_COLOR]:
                 surf.fill(self.style[STATE.NORMAL][SM.BACKGROUND_COLOR])
             if self.style[self.state][SM.BACKGROUND_IMG]:
-                surf.blit(self.style[self.state][SM.BACKGROUND_IMG], (0,0), self.width*self.height, special_flags = 0)
+                surf.blit(self.style[self.state][SM.BACKGROUND_IMG], (0,0), [0, 0, self.width, self.height], special_flags = 0)
             elif self.style[STATE.NORMAL][SM.BACKGROUND_IMG]:
-                surf.blit(self.style[STATE.NORMAL][SM.BACKGROUND_IMG], (0,0), self.width*self.height, special_flags = 0)
+                surf.blit(self.style[STATE.NORMAL][SM.BACKGROUND_IMG], (0,0), [0, 0, self.width, self.height], special_flags = 0)
             text = pen.render(self.label, True, color)
             surf.blit(text, ((self.width - text.get_width()) // 2,
                          (self.height - text.get_height()) // 2 ))
@@ -88,7 +88,7 @@ class Button(Clickable, Hoverable):
     """
     change the font size
     """
-    def setSize(width, height):
+    def setSize(self, width, height):
         self.width = width
         self.height = height
         self.draw()
@@ -96,7 +96,7 @@ class Button(Clickable, Hoverable):
     """
     change the color
     """
-    def setColor(self, color=(0, 128, 0), state=STATE.NORMAL):
+    def setColor(self, color=(255, 255, 255), state=STATE.NORMAL):
         self.style[state][SM.COLOR] = color
         self.draw()
 
@@ -106,6 +106,14 @@ class Button(Clickable, Hoverable):
     def setBackgroundColor(self, bg_color=pygame.SRCALPHA, state=STATE.NORMAL):
         self.style[state][SM.BACKGROUND_COLOR] = bg_color
         self.draw()
+
+    """
+    change the background color
+    """
+    def setBackgroundImg(self, bg_img, state=STATE.NORMAL):
+        self.style[state][SM.BACKGROUND_IMG] = bg_img
+        if state == STATE.NORMAL:
+            self.setSize(bg_img.get_width(), bg_img.get_height())
 
     """
     x,y are the center points of the button.

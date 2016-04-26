@@ -3,7 +3,7 @@ from game.objects import STATE
 
 class Hoverable():
     """docstring for Hoverable
-    
+
         For hoverables on use the isHovered(event) method in cases where you
         are expecting a hover. Otherwise it will hover with default configs
         unless overriden.
@@ -31,7 +31,7 @@ class Hoverable():
 
     def inRange(self, x, y):
         if ((self.x <= x <= (self.x + self.width)) and
-            (self.y <= y <= (self.y + self.width))):
+            (self.y <= y <= (self.y + self.height))):
             return True
         else:
             return False
