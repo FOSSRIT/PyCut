@@ -14,7 +14,15 @@ class PyCutGame():
         self.font_path  = "game/assets/font/Roboto-Thin.ttf"
         self.shop_background = pygame.image.load("game/assets/img/Background.png")
         self.counter_top = pygame.image.load("game/assets/img/Countertop.png")
-        self.plain_pizza = None #pygame.image.load("game/assets/img/pizza.png")
+        self.plain_pizza = pygame.image.load("game/assets/img/blank_pizza.png")
+        self.button_bg = pygame.image.load("game/assets/img/red_button01.png")
+        self.button_bg_active = pygame.image.load("game/assets/img/red_button02.png")
+        self.message_bubble_img = pygame.image.load("game/assets/img/message_bubble.png")
+        self.cheese_img = pygame.image.load("game/assets/img/cheese.png")
+        self.mushroom_img = pygame.image.load("game/assets/img/mushroom.png")
+        self.pepperoni_img = pygame.image.load("game/assets/img/pepperoni.png")
+        self.pineapple_img = pygame.image.load("game/assets/img/pineapple.png")
+        self.trash_can_img = pygame.image.load("game/assets/img/trash_can.png")
         self.quit_attempt = False
         #everything necessary for the game should be initialized before here
         #the context is established based on these details and passed along to the active scene

@@ -39,7 +39,7 @@ class Clickable():
 
     def inRange(self, x, y):
         if ((self.x <= x <= (self.x + self.width)) and
-            (self.y <= y <= (self.y + self.width))):
+            (self.y <= y <= (self.y + self.height))):
             return True
         else:
             return False
