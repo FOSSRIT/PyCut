@@ -7,9 +7,10 @@ class GameScene(SceneBase):
         SceneBase.__init__(self, context)
         self.createQuitButton()
         self.createMessageBubble()
-        self.pizza = Pizza(self.context)
+        self.buildPizzas()
         self.createToppingOptions()
         self.createTrashCan()
+        self.addCookingButton()
         self.count = 0#for debugging
 
     def ProcessInput(self, events, pressed_keys):
@@ -53,7 +54,9 @@ class GameScene(SceneBase):
         self.quit_button.setLocation(50, 50)
         self.quit_button.drawOn(self.screen)
         self.message_bubble.drawOn(self.screen)
-        self.pizza.drawOn(self.screen)
+        for pizza in self.pizzas:
+            pizza.drawOn(self.screen)
+        self.cook.drawOn(self.screen)
         self.cheeseBtn.drawOn(self.screen)
         self.mushroomBtn.drawOn(self.screen)
         self.pepperoniBtn.drawOn(self.screen)
@@ -81,6 +84,15 @@ class GameScene(SceneBase):
     def handleQuitButtonClick(self):
         self.context.quit()
 
+    def buildPizzas(self):
+        self.pizzas = []
+        Y = 0
+        for i in xrange(0,5):
+            pizza = Pizza(self.context)
+            pizza.setLocation(160, 650-Y)
+            Y+=5
+            self.pizzas += [pizza]
+
     def createToppingOptions(self):
         X = 600
         Y = 650
@@ -102,6 +114,12 @@ class GameScene(SceneBase):
         self.pineappleBtn.setBackgroundImg(self.context.button_bg_active, STATE.ACTIVE)
         self.pineappleBtn.setLocation(X + self.mushroomBtn.width + K, Y + self.pepperoniBtn.height + K)
 
+
+    def addCookingButton(self):
+        self.cook = Button(self.context, "Cook")
+        self.cook.setLocation(120, 760)
+        self.cook.setBackgroundImg(self.context.button_bg, STATE.NORMAL)
+        self.cook.setBackgroundImg(self.context.button_bg_active, STATE.ACTIVE)
 
     def createMessageBubble(self):
         self.message_bubble = MessageBubble(self.context)
