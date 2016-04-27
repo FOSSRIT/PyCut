@@ -7,11 +7,11 @@ class Pizza():
         self.pizza = self.context.plain_pizza
         self.slices = None
         self.color=(0,0,0)
-        self.x = 120
-        self.y = 500 - 5# 5=> margin between top and pizza
+        self.x = 100
+        self.y = 400 # 5=> margin between top and pizza
         self.location = (self.x,self.y)
-        self.width = 100
-        self.height = 100
+        self.width = 150
+        self.height = 150
         self.topics = []
         self.drawing = None
         self.draw()
@@ -21,8 +21,9 @@ class Pizza():
     """
     def draw(self):
         surf = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
-        gfxdraw.filled_ellipse(surf, self.width//2,self.height//2, self.width/2, self.height/2, (219,162,74))#pizza
-        pygame.draw.arc(surf, (225,216,0), [0, 0, self.width, self.height], 0, 360, 2)#crust
+        pygame.transform.scale(self.context.plain_pizza, (self.width, self.height), surf)
+        #gfxdraw.filled_ellipse(surf, self.width//2,self.height//2, self.width/2, self.height/2, (219,162,74))#pizza
+        #pygame.draw.arc(surf, (225,216,0), [0, 0, self.width, self.height], 0, 360, 2)#crust
         #draw slices on here afterwards
         self.drawing = surf
 
