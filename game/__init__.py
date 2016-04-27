@@ -31,8 +31,8 @@ class PyCutGame():
         self.font = pygame.font.Font(self.font_path, 24)
         self.font_small = pygame.font.Font(self.font_path, 14)
         pygame.display.set_caption(self.title)
-        self.starting_scene = scenes.TitleScene(self)
-        self.active_scene = self.starting_scene
+        self.starting_scene = scenes.TitleScene
+        self.active_scene = self.starting_scene(self)
         """    def write(self, text, center, size=self.size):
         = pygame.font.Font"""
 
