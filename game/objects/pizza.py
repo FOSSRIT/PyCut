@@ -35,3 +35,11 @@ class Pizza():
             screen.blit(self.drawing, self.location)
         else:
             print("Error: drawOn was called on Button object but no screen argument was passed")
+
+    """
+    x,y are the center points of the text.
+    """
+    def setLocation(self, x, y):
+        self.x = x
+        self.y = y
+        self.location = (x, y)
