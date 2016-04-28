@@ -62,6 +62,13 @@ class Text(Hoverable, Clickable):
             print("Error: drawOn was called on Text object but no screen argument was passed")
 
     """
+        change the Text
+    """
+    def setText(self, text):
+        self.text = text
+        self.draw()
+
+    """
     change the font size
     """
     def setPen(self, font, state=STATE.NORMAL):
