@@ -21,7 +21,8 @@ class Pizza():
     """
     def draw(self):
         surf = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
-        pygame.transform.scale(self.context.plain_pizza, (self.width, self.height), surf)
+        pizza_img = pygame.transform.scale(self.context.plain_pizza, (self.width, self.height))
+        surf.blit(pizza_img, (0,0))
         #gfxdraw.filled_ellipse(surf, self.width//2,self.height//2, self.width/2, self.height/2, (219,162,74))#pizza
         #pygame.draw.arc(surf, (225,216,0), [0, 0, self.width, self.height], 0, 360, 2)#crust
         #draw slices on here afterwards
