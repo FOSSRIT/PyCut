@@ -33,6 +33,7 @@ class MessageBubble(Hoverable):
             self.drawing.blit(self.messages[limit-i-1], (y, x))
             x -= self.messages[limit-i-1].get_height()
 
+
     """
         draw on a surface
     """
@@ -68,5 +69,5 @@ class MessageBubble(Hoverable):
     """
     Add message to message bubble.
     """
-    def addMessage(self,message):
-        self.messages.append(self.pen.render(message, True, self.color))
+    def addMessage(self,message, color=self.color):
+        self.messages.append(self.pen.render(message, True, color))
