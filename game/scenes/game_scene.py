@@ -6,6 +6,9 @@ class GameScene(SceneBase):
     def __init__(self, context):
         SceneBase.__init__(self, context)
         self.buttons = []
+        self.bad_pizzas = []
+        self.good_pizzas = []
+        self.current_pizza = None
         self.createGameMenu()
         self.createMessageBubble()
         self.buildPizzas()
@@ -35,18 +38,24 @@ class GameScene(SceneBase):
     def Update(self):
         self.count += 1
         self.message_bubble.addMessage( "Pizza #: {}".format(self.count))
+        if ((self.count % 100) == 0) and self.current_pizza:
+            self.current_pizza.moveToTrash((1000,600), self.trashCan)
+        self.checkForTrashedPizzas()
+        self.checkForGoodPizzas()
+        self.pizza_count_msg.setText("{} Pizzas left".format(len(self.pizzas)))
 
     def Render(self):
         # The game scene is just a blank blue screen
         self.screen.fill((0, 0, 255))
         self.screen.blit(self.context.shop_background,(0,0))
         self.screen.blit(self.context.counter_top,(0,0))
-        self.screen.blit(self.trashCan, (1000,600))
         self.message_bubble.drawOn(self.screen)
         for button in self.buttons:
             button.drawOn(self.screen)
         for pizza in self.pizzas:
             pizza.drawOn(self.screen)
+        self.pizza_count_msg.drawOn(self.screen)
+        self.screen.blit(self.trashCan, (1000,600))
 
 
     """
@@ -105,6 +114,50 @@ class GameScene(SceneBase):
             pizza.setLocation(140, 620-Y)
             Y+=5
             self.pizzas += [pizza]
+        if len(self.pizzas) > 0:
+            self.current_pizza = self.pizzas[-1]
+        self.pizza_count_msg = Text(self.context, "{} Pizzas left".format(len(self.pizzas)))
+        self.pizza_count_msg.setPen(self.context.font)
+        self.pizza_count_msg.setLocation(350, 675)
+
+    """
+    Checks for Pizzas in the current game instance and if a pizza is trashed as
+    denounced by the pizza_instance.trashed propety it adds it to the bad_pizzas
+    pile and removes it from the available pizzas.
+    """
+    def checkForTrashedPizzas(self):
+        limit = len(self.pizzas)
+        i = 0
+        while i < limit:
+            pizza = self.pizzas[i]
+            if pizza.trashed:
+                self.bad_pizzas += [self.pizzas.pop(i)]
+                limit -= 1
+            i+=1
+        if limit > 0:
+            self.current_pizza = self.pizzas[-1]
+        else:
+            self.current_pizza = None
+
+    """
+    Checks for Pizzas in the current game instance and if a pizza is to
+    the client's satisfaction as denounced by the pizza_instance.perfected
+    propety it adds it to the good_pizzas pile and removes it from the
+    available pizzas.
+    """
+    def checkForGoodPizzas(self):
+        limit = len(self.pizzas)
+        i = 0
+        while i < limit:
+            pizza = self.pizzas[i]
+            if pizza.perfected:
+                self.good_pizzas += [self.pizzas.pop(i)]
+                limit -= 1
+            i+=1
+        if limit > 0:
+            self.current_pizza = self.pizzas[-1]
+        else:
+            self.current_pizza = None
 
     def createToppingOptions(self):
         X = 600

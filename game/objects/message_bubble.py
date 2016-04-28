@@ -26,12 +26,13 @@ class MessageBubble(Hoverable):
     def draw(self):
         self.drawing = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
         self.drawing.blit(self.background, (0,0))
-        x = self.height - 60
-        y = 40
+        x = 40
+        y = self.height - 55
         limit = len(self.messages)
         for i in xrange(limit):
-            self.drawing.blit(self.messages[limit-i-1], (y, x))
-            x -= self.messages[limit-i-1].get_height()
+            self.drawing.blit(self.messages[limit-i-1], (x, y))
+            y -= self.messages[limit-i-1].get_height()
+
 
     """
         draw on a surface
@@ -68,5 +69,7 @@ class MessageBubble(Hoverable):
     """
     Add message to message bubble.
     """
-    def addMessage(self,message):
-        self.messages.append(self.pen.render(message, True, self.color))
+    def addMessage(self, message, color=None):
+        if not(color):
+            color = self.color
+        self.messages.append(self.pen.render(message, True, color))
