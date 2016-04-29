@@ -8,6 +8,7 @@ class GameScene(SceneBase):
         self.buttons = []
         self.bad_pizzas = []
         self.good_pizzas = []
+        self.game_toppings = self.context.game_toppings
         self.current_pizza = None
         self.createGameMenu()
         self.createMessageBubble()
