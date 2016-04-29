@@ -22,7 +22,7 @@ class Pizza(Rangable):
         self.location = (self.x,self.y)
         self.width = 150
         self.height = 150
-        self.topings = []
+        self.toppings = []
         self.drawing = None
         self.draw()
 
@@ -42,9 +42,9 @@ class Pizza(Rangable):
         pizza_img = pygame.transform.scale(self.context.plain_pizza, (self.width, self.height))
         surf.blit(pizza_img, (0,0))
         pad = self.offset
-        for toping in self.topings:
+        for topping in self.toppings:
             pad += 5
-            self.drawToping(surf, toping, pad)
+            self.drawTopping(surf, topping, pad)
         #gfxdraw.filled_ellipse(surf, self.width//2,self.height//2, self.width/2, self.height/2, (219,162,74))#pizza
         #pygame.draw.arc(surf, (225,216,0), [0, 0, self.width, self.height], 0, 360, 2)#crust
         #draw slices on here afterwards
@@ -63,19 +63,19 @@ class Pizza(Rangable):
     """
         return topping drawing
     """
-    def drawToping(self, surf, toping_img, pad=0):
+    def drawTopping(self, surf, topping_img, pad=0):
         #needs serious refactoring
-        toping_img = pygame.transform.scale(toping_img, (self.width/4, self.height/4))
+        topping_img = pygame.transform.scale(topping_img, (self.width/4, self.height/4))
         degree = 0
         #center portion
-        surf.blit(toping_img, ( (surf.get_width()/2) - (toping_img.get_width()/2), (surf.get_height()/2) - (toping_img.get_height()/2)))
+        surf.blit(topping_img, ( (surf.get_width()/2) - (topping_img.get_width()/2), (surf.get_height()/2) - (topping_img.get_height()/2)))
         #top portion
         w,h = (surf.get_width()/6) + pad, surf.get_height()/6
-        surf.blit(toping_img, ( w, h ))
-        surf.blit(toping_img, ( 3*w , h ))
+        surf.blit(topping_img, ( w, h ))
+        surf.blit(topping_img, ( 3*w , h ))
         #bottom portion
-        surf.blit(toping_img, ( w, 3*h ))
-        surf.blit(toping_img, ( 3*w , 3*h ))
+        surf.blit(topping_img, ( w, 3*h ))
+        surf.blit(topping_img, ( 3*w , 3*h ))
 
         degree += 45
         return surf
@@ -94,8 +94,9 @@ class Pizza(Rangable):
     """
         Add topping
     """
-    def addTopping(topping):
-        self.topings += [topping]
+    def addTopping(self, topping):
+        if topping not in self.toppings:
+            self.toppings += [topping]
 
     """
         draw on a surface

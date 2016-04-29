@@ -167,21 +167,40 @@ class GameScene(SceneBase):
         self.cheeseBtn = Button(self.context, "Cheese")
         self.cheeseBtn.setBackgroundImg(self.context.button_bg, STATE.NORMAL)
         self.cheeseBtn.setBackgroundImg(self.context.button_bg_active, STATE.ACTIVE)
+        self.cheeseBtn.setOnLeftClick(self.addCheeseTopping)
         self.cheeseBtn.setLocation(X, Y)
         self.mushroomBtn = Button(self.context, "Mushroom")
         self.mushroomBtn.setBackgroundImg(self.context.button_bg, STATE.NORMAL)
         self.mushroomBtn.setBackgroundImg(self.context.button_bg_active, STATE.ACTIVE)
+        self.mushroomBtn.setOnLeftClick(self.addMushroomTopping)
         self.mushroomBtn.setLocation(X, Y + self.cheeseBtn.height + K)
         self.pepperoniBtn = Button(self.context, "Pepperoni")
         self.pepperoniBtn.setBackgroundImg(self.context.button_bg, STATE.NORMAL)
         self.pepperoniBtn.setBackgroundImg(self.context.button_bg_active, STATE.ACTIVE)
+        self.pepperoniBtn.setOnLeftClick(self.addPepperoniTopping)
         self.pepperoniBtn.setLocation(X + self.cheeseBtn.width + K, Y)
         self.pineappleBtn = Button(self.context, "Pineapple")
         self.pineappleBtn.setBackgroundImg(self.context.button_bg, STATE.NORMAL)
         self.pineappleBtn.setBackgroundImg(self.context.button_bg_active, STATE.ACTIVE)
+        self.pineappleBtn.setOnLeftClick(self.addPineappleTopping)
         self.pineappleBtn.setLocation(X + self.mushroomBtn.width + K, Y + self.pepperoniBtn.height + K)
         self.buttons += [self.cheeseBtn, self.mushroomBtn, self.pepperoniBtn, self.pineappleBtn]
 
+    def addCheeseTopping(self):
+        if self.current_pizza:
+            self.current_pizza.addTopping(self.context.cheese_img)
+
+    def addMushroomTopping(self):
+        if self.current_pizza:
+            self.current_pizza.addTopping(self.context.mushroom_img)
+
+    def addPepperoniTopping(self):
+        if self.current_pizza:
+            self.current_pizza.addTopping(self.context.pepperoni_img)
+
+    def addPineappleTopping(self):
+        if self.current_pizza:
+            self.current_pizza.addTopping(self.context.pineapple_img)
 
     def addCookingButton(self):
         self.cook = Button(self.context, "Cook")
