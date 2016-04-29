@@ -23,6 +23,8 @@ class PyCutGame():
         self.pepperoni_img = pygame.image.load("game/assets/img/pepperoni.png")
         self.pineapple_img = pygame.image.load("game/assets/img/pineapple.png")
         self.trash_can_img = pygame.image.load("game/assets/img/trash_can.png")
+        self.game_toppings = [self.cheese_img, self.mushroom_img,
+                                self.pepperoni_img, self.pineapple_img]
         self.quit_attempt = False
         #everything necessary for the game should be initialized before here
         #the context is established based on these details and passed along to the active scene
