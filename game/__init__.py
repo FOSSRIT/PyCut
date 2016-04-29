@@ -7,8 +7,8 @@ class PyCutGame():
     def __init__(self):
         self.data = None
         self.screen = pygame.display.get_surface()
-        self.width = self.screen.get_width()
-        self.height = self.screen.get_height()
+        self.width = 1000
+        self.height = 900
         self.fps = 60
         self.title = "PyCut"
         self.font_path  = "game/assets/font/Roboto-Thin.ttf"
