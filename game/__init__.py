@@ -11,6 +11,7 @@ class PyCutGame():
         self.height = 900
         self.fps = 60
         self.title = "PyCut"
+        self.game_icon = pygame.image.load("game/assets/img/PyCut_icon.png")
         self.font_path  = "game/assets/font/Roboto-Thin.ttf"
         self.bold_font_path  = "game/assets/font/Roboto-Regular.ttf"
         self.shop_background = pygame.image.load("game/assets/img/Background.png")
@@ -46,6 +47,7 @@ class PyCutGame():
         self.bold_font = pygame.font.Font(self.bold_font_path, 24)
         self.bold_font_small = pygame.font.Font(self.bold_font_path, 14)
         pygame.display.set_caption(self.title)
+        pygame.display.set_icon(self.game_icon)
         self.starting_scene = scenes.TitleScene
         self.active_scene = self.starting_scene(self)
         """    def write(self, text, center, size=self.size):
