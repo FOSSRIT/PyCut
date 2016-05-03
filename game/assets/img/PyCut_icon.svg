@@ -30,7 +30,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="7.919596"
-     inkscape:cx="36.468235"
+     inkscape:cx="55.787403"
      inkscape:cy="28.832878"
      inkscape:document-units="px"
      inkscape:current-layer="layer4"
@@ -187,6 +187,13 @@
        sodipodi:rx="15.657364"
        sodipodi:cy="27.725882"
        sodipodi:cx="29.546961" />
+    <ellipse
+       style="fill:#ffffff;fill-opacity:1;stroke:#666666;stroke-opacity:1"
+       id="path4345"
+       cx="27.463522"
+       cy="27.536478"
+       rx="23.170374"
+       ry="23.044106" />
     <circle
        style="fill:#666666;fill-opacity:1;stroke:#000000;stroke-opacity:1"
        id="path4296"
@@ -264,13 +271,13 @@
        cy="24.758558"
        r="1.2626907" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 28.031733,6.5126782 0,41.9213308"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.0369674px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 28.031733,4.9974494 0,45.0780576"
        id="path4322"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 6.5659915,27.473343 41.9213305,0"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.03986788px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 4.7982246,27.473343 45.3305954,0"
        id="path4324"
        inkscape:connector-curvature="0" />
   </g>
