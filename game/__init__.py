@@ -37,6 +37,7 @@ class PyCutGame():
                                 self.pepperoni_img, self.pineapple_img]
         self.quit_attempt = False
         self.level = 1
+        self.total_good_pizza = 0
         #everything necessary for the game should be initialized before here
         #the context is established based on these details and passed along to the active scene
         self.clock = pygame.time.Clock()

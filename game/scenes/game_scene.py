@@ -7,6 +7,7 @@ class GameScene(SceneBase):
     def __init__(self, context):
         SceneBase.__init__(self, context)
         self.level = self.context.level
+        self.game_over = False
         self.buttons = []
         self.bad_pizzas = []
         self.good_pizzas = []
@@ -21,6 +22,10 @@ class GameScene(SceneBase):
         self.pizza_count_msg.setPen(self.context.font)
         self.pizza_count_msg.setColor((0, 0, 0))
         self.pizza_count_msg.setLocation(350, 675)
+        self.game_over_msg =   Text(self.context, "Game Over!!!")
+        self.game_over_msg.setPen(self.context.bold_font_large)
+        self.game_over_msg.setColor((255,140,0))
+        self.game_over_msg.setLocation((self.screen.get_width()/2) -(self.restart_button.width/2), 300)
         self.createTrashCan()
         self.addCookingButton()
         self.generateCurrentPizzaRequirements()
@@ -59,8 +64,14 @@ class GameScene(SceneBase):
         self.screen.blit(self.characters[self.level+1],(850,255))
         self.screen.blit(self.context.counter_top,(0,0))
         self.message_bubble.drawOn(self.screen)
-        for button in self.buttons:
-            button.drawOn(self.screen)
+        if self.game_over:
+            self.restart_button.setLocation( (self.screen.get_width()/2) -(self.restart_button.width/2) ,
+                (self.screen.get_height()/2) - (self.restart_button.height/2) )
+            self.restart_button.drawOn(self.screen)
+            self.game_over_msg.drawOn(self.screen)
+        else:
+            for button in self.buttons:
+                button.drawOn(self.screen)
         self.screen.blit(self.trashCanBack, (1000,600))
         #draw pizzas in the trash can
         for pizza in self.bad_pizzas:
@@ -157,6 +168,8 @@ class GameScene(SceneBase):
                 self.current_pizza.setRequirements(previous_requirements)
             else:
                 self.current_pizza = None
+        if not self.current_pizza and (len(self.pizzas) <= 0):
+            self.gameOver()
 
     """
     Checks for Pizzas in the current game instance and if a pizza is to
@@ -235,10 +248,11 @@ class GameScene(SceneBase):
             validity = self.current_pizza.checkRequirements()
             if validity[0]:
                 self.current_pizza.setPerfect()
+                self.levelUp()
             else:
                 self.current_pizza.moveToTrash((1000,600), self.trashCan)
-            for message in validity[1]:
-                self.message_bubble.addMessage(message)
+            if validity[1]:
+                self.message_bubble.addMessage(None, validity[1])
 
     def createMessageBubble(self):
         self.message_bubble = MessageBubble(self.context)
@@ -258,4 +272,10 @@ class GameScene(SceneBase):
             self.current_pizza.setRequirements(requires)
 
     def levelUp(self):
+        self.leveling_up = True
+        self.context.level += 1
+        self.context.total_good_pizza += 1
         print("Leveling up")
+
+    def gameOver(self):
+        self.game_over = True
