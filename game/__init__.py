@@ -12,6 +12,7 @@ class PyCutGame():
         self.fps = 60
         self.title = "PyCut"
         self.font_path  = "game/assets/font/Roboto-Thin.ttf"
+        self.bold_font_path  = "game/assets/font/Roboto-Regular.ttf"
         self.shop_background = pygame.image.load("game/assets/img/Background.png")
         self.counter_top = pygame.image.load("game/assets/img/Countertop.png")
         self.plain_pizza = pygame.image.load("game/assets/img/blank_pizza.png")
@@ -23,15 +24,27 @@ class PyCutGame():
         self.pepperoni_img = pygame.image.load("game/assets/img/pepperoni.png")
         self.pineapple_img = pygame.image.load("game/assets/img/pineapple.png")
         self.trash_can_img = pygame.image.load("game/assets/img/trash_can.png")
+        self.trash_can_front_img = pygame.image.load("game/assets/img/trash_can_front.png")
+        self.trash_can_back_img = pygame.image.load("game/assets/img/trash_can_back.png")
+        self.character_1 = pygame.image.load("game/assets/img/Character1.png")
+        self.character_2 = pygame.image.load("game/assets/img/Character2.png")
+        self.character_3 = pygame.image.load("game/assets/img/Character3.png")
+        self.character_4 = pygame.image.load("game/assets/img/Character4.png")
+        self.game_characters = [self.character_1, self.character_2,
+                                self.character_3, self.character_4]
         self.game_toppings = [self.cheese_img, self.mushroom_img,
                                 self.pepperoni_img, self.pineapple_img]
         self.quit_attempt = False
+        self.level = 1
         #everything necessary for the game should be initialized before here
         #the context is established based on these details and passed along to the active scene
         self.clock = pygame.time.Clock()
         self.font_large = pygame.font.Font(self.font_path, 72)
         self.font = pygame.font.Font(self.font_path, 24)
         self.font_small = pygame.font.Font(self.font_path, 14)
+        self.bold_font_large = pygame.font.Font(self.bold_font_path, 72)
+        self.bold_font = pygame.font.Font(self.bold_font_path, 24)
+        self.bold_font_small = pygame.font.Font(self.bold_font_path, 14)
         pygame.display.set_caption(self.title)
         self.starting_scene = scenes.TitleScene
         self.active_scene = self.starting_scene(self)

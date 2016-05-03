@@ -9,11 +9,12 @@ class MessageBubble(Hoverable):
         self.context = context
         self.state = STATE.NORMAL
         self.color = (30,144,255)
+        self.old_message_color = (95,95,95)
         self.background = self.context.message_bubble_img
-        self.pen = self.context.font_small
+        self.pen = self.context.bold_font
         self.messages = []
         self.x = 180
-        self.y = 60
+        self.y = 100
         self.location = (self.x,self.y)
         self.width = self.background.get_width()
         self.height = self.background.get_height()
@@ -27,7 +28,7 @@ class MessageBubble(Hoverable):
         self.drawing = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
         self.drawing.blit(self.background, (0,0))
         x = 40
-        y = self.height - 55
+        y = self.height - 62
         limit = len(self.messages)
         for i in xrange(limit):
             self.drawing.blit(self.messages[limit-i-1], (x, y))
@@ -70,6 +71,16 @@ class MessageBubble(Hoverable):
     Add message to message bubble.
     """
     def addMessage(self, message, color=None):
+        old_messages = self.messages
+        for msg in self.messages:
+            arr = pygame.PixelArray(msg)
+            arr.replace(self.color, self.old_message_color)
         if not(color):
             color = self.color
         self.messages.append(self.pen.render(message, True, color))
+
+    """
+    clear message from message bubble.
+    """
+    def clearMessages(self):
+        self.messages = []
