@@ -1,3 +1,4 @@
+import random
 import pygame
 from . import SceneBase
 from game.objects import STATE, Text, Button, Pizza, MessageBubble
@@ -5,17 +6,24 @@ from game.objects import STATE, Text, Button, Pizza, MessageBubble
 class GameScene(SceneBase):
     def __init__(self, context):
         SceneBase.__init__(self, context)
+        self.level = self.context.level
         self.buttons = []
         self.bad_pizzas = []
         self.good_pizzas = []
         self.game_toppings = self.context.game_toppings
+        self.characters = self.context.game_characters
         self.current_pizza = None
         self.createGameMenu()
         self.createMessageBubble()
         self.buildPizzas()
         self.createToppingOptions()
+        self.pizza_count_msg = Text(self.context, "{} Pizzas left".format(len(self.pizzas)))
+        self.pizza_count_msg.setPen(self.context.font)
+        self.pizza_count_msg.setColor((0, 0, 0))
+        self.pizza_count_msg.setLocation(350, 675)
         self.createTrashCan()
         self.addCookingButton()
+        self.generateCurrentPizzaRequirements()
         self.count = 0#for debugging
 
     def ProcessInput(self, events, pressed_keys):
@@ -38,33 +46,37 @@ class GameScene(SceneBase):
 
     def Update(self):
         self.count += 1
-        self.message_bubble.addMessage( "Pizza #: {}".format(self.count))
-        if ((self.count % 100) == 0) and self.current_pizza:
-            self.current_pizza.moveToTrash((1000,600), self.trashCan)
-        self.checkForTrashedPizzas()
         self.checkForGoodPizzas()
+        self.checkForTrashedPizzas()
         self.pizza_count_msg.setText("{} Pizzas left".format(len(self.pizzas)))
+        self.levelDisplay.setText("Level: {}".format(self.level))
+        #self.message_bubble.addMessage( "Pizza #: {}".format(self.count))
 
     def Render(self):
         # The game scene is just a blank blue screen
         self.screen.fill((0, 0, 255))
         self.screen.blit(self.context.shop_background,(0,0))
+        self.screen.blit(self.characters[self.level+1],(850,255))
         self.screen.blit(self.context.counter_top,(0,0))
         self.message_bubble.drawOn(self.screen)
         for button in self.buttons:
             button.drawOn(self.screen)
+        self.screen.blit(self.trashCanBack, (1000,600))
+        #draw pizzas in the trash can
+        for pizza in self.bad_pizzas:
+            pizza.drawOn(self.screen)
+        #then draw available pizzas
         for pizza in self.pizzas:
             pizza.drawOn(self.screen)
         self.pizza_count_msg.drawOn(self.screen)
-        self.screen.blit(self.trashCan, (1000,600))
-
+        self.screen.blit(self.trashCanFront, (1000,600))
 
     """
         Take care of element initialization and event handlers bellow
     """
 
     def createGameMenu(self):
-        P, K = 300, 5
+        P, K, Y = 300, 5, 30
         currX = P
         self.quit_button = Button(self.context, "Quit")
         self.quit_button.setPen(self.context.font)
@@ -73,7 +85,7 @@ class GameScene(SceneBase):
         self.quit_button.setBackgroundImg(self.context.button_bg_active, STATE.ACTIVE)
         self.quit_button.setOnLeftClick(self.handleQuitButtonClick)
         self.quit_button.setOnHover(self.handleQuitButtonHover)
-        self.quit_button.setLocation(P, 0)
+        self.quit_button.setLocation(P, Y)
         currX+= self.quit_button.width
         self.restart_button = Button(self.context, "Restart")
         self.restart_button.setPen(self.context.font)
@@ -81,7 +93,7 @@ class GameScene(SceneBase):
         self.restart_button.setBackgroundImg(self.context.button_bg, STATE.NORMAL)
         self.restart_button.setBackgroundImg(self.context.button_bg_active, STATE.ACTIVE)
         self.restart_button.setOnLeftClick(self.handleRestartButtonClick)
-        self.restart_button.setLocation(currX + K, 0)
+        self.restart_button.setLocation(currX + K, Y)
         currX += self.restart_button.width + K
         self.home_button = Button(self.context, "Menu/Home")
         self.home_button.setPen(self.context.font)
@@ -89,8 +101,13 @@ class GameScene(SceneBase):
         self.home_button.setBackgroundImg(self.context.button_bg, STATE.NORMAL)
         self.home_button.setBackgroundImg(self.context.button_bg_active, STATE.ACTIVE)
         self.home_button.setOnLeftClick(self.handleHomeButtonClick)
-        self.home_button.setLocation(currX + K, 0)
-        self.buttons += [self.quit_button, self.restart_button, self.home_button]
+        self.home_button.setLocation(currX + K, Y)
+        currX += self.home_button.width + K
+        self.levelDisplay = Text(self.context, "Level: {}".format(self.level))
+        self.levelDisplay.setPen(self.context.bold_font)
+        self.levelDisplay.setLocation(currX + K, Y+5)
+        self.levelDisplay.setColor((0, 0, 0))
+        self.buttons += [self.quit_button, self.restart_button, self.home_button, self.levelDisplay]
 
     """
     helper methods below this point
@@ -110,16 +127,13 @@ class GameScene(SceneBase):
     def buildPizzas(self):
         self.pizzas = []
         Y = 0
-        for i in xrange(0,5):
+        for i in xrange(0,11-self.level):
             pizza = Pizza(self.context)
             pizza.setLocation(140, 620-Y)
             Y+=5
             self.pizzas += [pizza]
         if len(self.pizzas) > 0:
             self.current_pizza = self.pizzas[-1]
-        self.pizza_count_msg = Text(self.context, "{} Pizzas left".format(len(self.pizzas)))
-        self.pizza_count_msg.setPen(self.context.font)
-        self.pizza_count_msg.setLocation(350, 675)
 
     """
     Checks for Pizzas in the current game instance and if a pizza is trashed as
@@ -127,18 +141,22 @@ class GameScene(SceneBase):
     pile and removes it from the available pizzas.
     """
     def checkForTrashedPizzas(self):
-        limit = len(self.pizzas)
-        i = 0
+        limit, i, trashed = len(self.pizzas), 0, False
+        if self.current_pizza:
+            previous_requirements = self.current_pizza.requirements
         while i < limit:
             pizza = self.pizzas[i]
             if pizza.trashed:
                 self.bad_pizzas += [self.pizzas.pop(i)]
+                trashed = True
                 limit -= 1
             i+=1
-        if limit > 0:
-            self.current_pizza = self.pizzas[-1]
-        else:
-            self.current_pizza = None
+        if trashed:
+            if limit > 0:
+                self.current_pizza = self.pizzas[-1]
+                self.current_pizza.setRequirements(previous_requirements)
+            else:
+                self.current_pizza = None
 
     """
     Checks for Pizzas in the current game instance and if a pizza is to
@@ -147,18 +165,20 @@ class GameScene(SceneBase):
     available pizzas.
     """
     def checkForGoodPizzas(self):
-        limit = len(self.pizzas)
-        i = 0
+        limit, i, perfected = len(self.pizzas), 0, False
         while i < limit:
             pizza = self.pizzas[i]
             if pizza.perfected:
                 self.good_pizzas += [self.pizzas.pop(i)]
+                perfected = True
                 limit -= 1
             i+=1
-        if limit > 0:
-            self.current_pizza = self.pizzas[-1]
-        else:
-            self.current_pizza = None
+        if perfected:
+            if limit > 0:
+                self.current_pizza = self.pizzas[-1]
+                self.generateCurrentPizzaRequirements()
+            else:
+                self.current_pizza = None
 
     def createToppingOptions(self):
         X = 600
@@ -207,11 +227,35 @@ class GameScene(SceneBase):
         self.cook.setLocation(120, 770)
         self.cook.setBackgroundImg(self.context.button_bg, STATE.NORMAL)
         self.cook.setBackgroundImg(self.context.button_bg_active, STATE.ACTIVE)
+        self.cook.setOnLeftClick(self.handleCooking)
         self.buttons += [self.cook]
+
+    def handleCooking(self):
+        if self.current_pizza:
+            validity = self.current_pizza.checkRequirements()
+            if validity[0]:
+                self.current_pizza.setPerfect()
+            else:
+                self.current_pizza.moveToTrash((1000,600), self.trashCan)
+            for message in validity[1]:
+                self.message_bubble.addMessage(message)
 
     def createMessageBubble(self):
         self.message_bubble = MessageBubble(self.context)
-        self.message_bubble.addMessage("I need a pizza")
 
     def createTrashCan(self):
-        self.trashCan = self.context.trash_can_img
+        self.trashCan = self.context.trash_can_img #trashcan is imaginary only back and front are drawn.
+        self.trashCanFront = self.context.trash_can_front_img
+        self.trashCanBack = self.context.trash_can_back_img
+
+    def generateCurrentPizzaRequirements(self):
+        requires = []
+        for topping in self.game_toppings:
+            if bool(random.getrandbits(1)):
+                requires += [topping]
+        if self.current_pizza:
+            self.message_bubble.addMessage("I need a pizza")
+            self.current_pizza.setRequirements(requires)
+
+    def levelUp(self):
+        print("Leveling up")

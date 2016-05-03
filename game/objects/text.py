@@ -78,8 +78,8 @@ class Text(Hoverable, Clickable):
     """
     change the color
     """
-    def setColor(self, color=(0, 128, 0)):
-        self.color = color
+    def setColor(self, color=(0, 128, 0), state=STATE.NORMAL):
+        self.style[state][SM.COLOR] = color
         self.draw()
 
     """
