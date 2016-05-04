@@ -9,8 +9,9 @@ class PyCutGame():
         self.screen = pygame.display.get_surface()
         self.width = 1000
         self.height = 900
-        self.fps = 60
+        self.fps = 15
         self.title = "PyCut"
+        self.game_icon = pygame.image.load("game/assets/img/PyCut_icon.png")
         self.font_path  = "game/assets/font/Roboto-Thin.ttf"
         self.bold_font_path  = "game/assets/font/Roboto-Regular.ttf"
         self.shop_background = pygame.image.load("game/assets/img/Background.png")
@@ -36,6 +37,7 @@ class PyCutGame():
                                 self.pepperoni_img, self.pineapple_img]
         self.quit_attempt = False
         self.level = 1
+        self.total_good_pizza = 0
         #everything necessary for the game should be initialized before here
         #the context is established based on these details and passed along to the active scene
         self.clock = pygame.time.Clock()
@@ -46,6 +48,7 @@ class PyCutGame():
         self.bold_font = pygame.font.Font(self.bold_font_path, 24)
         self.bold_font_small = pygame.font.Font(self.bold_font_path, 14)
         pygame.display.set_caption(self.title)
+        pygame.display.set_icon(self.game_icon)
         self.starting_scene = scenes.TitleScene
         self.active_scene = self.starting_scene(self)
         """    def write(self, text, center, size=self.size):
