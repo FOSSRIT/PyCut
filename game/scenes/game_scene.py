@@ -61,7 +61,7 @@ class GameScene(SceneBase):
         # The game scene is just a blank blue screen
         self.screen.fill((0, 0, 255))
         self.screen.blit(self.context.shop_background,(0,0))
-        self.screen.blit(self.characters[self.level+1],(850,255))
+        self.screen.blit(self.characters[self.level-1],(850,255))
         self.screen.blit(self.context.counter_top,(0,0))
         self.message_bubble.drawOn(self.screen)
         if self.game_over:
@@ -130,10 +130,10 @@ class GameScene(SceneBase):
         self.context.quit()
 
     def handleRestartButtonClick(self):
-        self.SwitchToScene(GameScene)
+        self.SwitchToScene(GameScene, self.context)
 
     def handleHomeButtonClick(self):
-        self.SwitchToScene(self.context.starting_scene)
+        self.SwitchToScene(self.context.starting_scene, self.context)
 
     def buildPizzas(self):
         self.pizzas = []
@@ -264,6 +264,8 @@ class GameScene(SceneBase):
 
     def generateCurrentPizzaRequirements(self):
         requires = []
+        for i in xrange(0, self.level):
+            random.getrandbits(1)
         for topping in self.game_toppings:
             if bool(random.getrandbits(1)):
                 requires += [topping]
@@ -273,9 +275,13 @@ class GameScene(SceneBase):
 
     def levelUp(self):
         self.leveling_up = True
-        self.context.level += 1
         self.context.total_good_pizza += 1
-        print("Leveling up")
+        if self.context.level < len(self.context.game_characters):
+            self.context.level += 1
+            self.SwitchToScene(GameScene, self.context)
+            print("Leveling up")
+        else:
+            print("Max level reached")
 
     def gameOver(self):
         self.game_over = True

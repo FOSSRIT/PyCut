@@ -13,11 +13,14 @@ class SceneBase:
     def Render(self):
         print("uh-oh, you didn't override this in the child class")
 
-    def SwitchToScene(self, next_scene):
+    def SwitchToScene(self, next_scene, context=None):
         if next_scene == None:
             self.next = next_scene
         else:
-            self.next = next_scene(self.context)
+            if context:
+                self.next = next_scene(context)
+            else:
+                self.next = next_scene(self.context)
 
     def Terminate(self):
         self.SwitchToScene(None)

@@ -126,7 +126,7 @@ class Pizza(Rangable):
             message += ["There is too little toppings on the pizza. :(".format(notwanted)]
         elif missing < 0:
             message += ["There is too much toppings on the pizza than I wanted. :(".format(notwanted)]
-        if notwanted > 1:
+        if notwanted > 0:
             message += ["There is {} topping on the pizza I don't like. :(".format(notwanted)]
         if not(notwanted) and missing == 0:
             metRequirement = True
