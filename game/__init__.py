@@ -9,7 +9,7 @@ class PyCutGame():
         self.screen = pygame.display.get_surface()
         self.width = 1000
         self.height = 900
-        self.fps = 60
+        self.fps = 15
         self.title = "PyCut"
         self.game_icon = pygame.image.load("game/assets/img/PyCut_icon.png")
         self.font_path  = "game/assets/font/Roboto-Thin.ttf"

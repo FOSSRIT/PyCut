@@ -8,6 +8,7 @@ class GameScene(SceneBase):
         SceneBase.__init__(self, context)
         self.level = self.context.level
         self.game_over = False
+        self.leveling_up = False
         self.buttons = []
         self.bad_pizzas = []
         self.good_pizzas = []
@@ -26,6 +27,16 @@ class GameScene(SceneBase):
         self.game_over_msg.setPen(self.context.bold_font_large)
         self.game_over_msg.setColor((255,140,0))
         self.game_over_msg.setLocation((self.screen.get_width()/2) -(self.restart_button.width/2), 300)
+        self.level_up_msg =   Text(self.context, "New Level reached")
+        self.level_up_msg.setPen(self.context.bold_font_large)
+        self.level_up_msg.setColor((255,140,0))
+        self.level_up_msg.setLocation((self.screen.get_width()/2) -(self.restart_button.width/2), 300)
+        self.continue_button = Button(self.context, "continue")
+        self.continue_button.setBackgroundImg(self.context.button_bg, STATE.NORMAL)
+        self.continue_button.setBackgroundImg(self.context.button_bg_active, STATE.ACTIVE)
+        self.continue_button.setOnLeftClick(self.handleContinueButtonClick)
+        self.continue_button.setLocation( (self.screen.get_width()/2) -(self.continue_button.width/2) ,
+            (self.screen.get_height()/2) - (self.continue_button.height/2) )
         self.createTrashCan()
         self.addCookingButton()
         self.generateCurrentPizzaRequirements()
@@ -40,14 +51,20 @@ class GameScene(SceneBase):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for button in self.buttons:
                     button.isClicked(event)
+                if self.leveling_up:
+                    self.continue_button.isClicked(event)
 
             if event.type == pygame.MOUSEBUTTONUP:
                 for button in self.buttons:
                     button.isClicked(event)
+                if self.leveling_up:
+                    self.continue_button.isClicked(event)
 
             if event.type == pygame.MOUSEMOTION:
                 for button in self.buttons:
                     button.isHovered(event)
+                if self.leveling_up:
+                    self.continue_button.isHovered(event)
 
     def Update(self):
         self.count += 1
@@ -61,7 +78,7 @@ class GameScene(SceneBase):
         # The game scene is just a blank blue screen
         self.screen.fill((0, 0, 255))
         self.screen.blit(self.context.shop_background,(0,0))
-        self.screen.blit(self.characters[self.level-1],(850,255))
+        self.screen.blit(self.characters[self.level% len(self.characters)],(850,255))
         self.screen.blit(self.context.counter_top,(0,0))
         self.message_bubble.drawOn(self.screen)
         if self.game_over:
@@ -69,9 +86,13 @@ class GameScene(SceneBase):
                 (self.screen.get_height()/2) - (self.restart_button.height/2) )
             self.restart_button.drawOn(self.screen)
             self.game_over_msg.drawOn(self.screen)
+        elif self.leveling_up:
+            self.level_up_msg.drawOn(self.screen)
+            self.continue_button.drawOn(self.screen)
         else:
             for button in self.buttons:
                 button.drawOn(self.screen)
+
         self.screen.blit(self.trashCanBack, (1000,600))
         #draw pizzas in the trash can
         for pizza in self.bad_pizzas:
@@ -130,6 +151,9 @@ class GameScene(SceneBase):
         self.context.quit()
 
     def handleRestartButtonClick(self):
+        self.SwitchToScene(GameScene, self.context)
+
+    def handleContinueButtonClick(self):
         self.SwitchToScene(GameScene, self.context)
 
     def handleHomeButtonClick(self):
@@ -278,7 +302,6 @@ class GameScene(SceneBase):
         self.context.total_good_pizza += 1
         if self.context.level < len(self.context.game_characters):
             self.context.level += 1
-            self.SwitchToScene(GameScene, self.context)
             print("Leveling up")
         else:
             print("Max level reached")
