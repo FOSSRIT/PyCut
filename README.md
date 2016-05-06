@@ -7,14 +7,14 @@ PyCut is a pizza-making puzzle game made for the IGME-582 final project at the [
 
 ## About the project
 
-This project is a game designed to run on the One Laptop per Child XO laptops. You can find more information about the scope, background, and context of the project on our [wiki](https://github.com/jflory7/PyCut/wiki).
+This project is a game designed to run on the One Laptop per Child XO laptops. You can find more information about the scope, background, and context of the project on our [wiki](https://github.com/FOSSRIT/PyCut/wiki).
 
 You can also find more information about the project on the [SugarLabs wiki](https://wiki.sugarlabs.org/go/Activities/PyCut). We also hope to deploy this on the official SugarLabs download site in the near future.
 
 
 ## Building / Playing
 
-For more information on how to build PyCut, [see the wiki](https://github.com/jflory7/PyCut/wiki/Building).
+For more information on how to build PyCut, [see the wiki](https://github.com/jflory7/FOSSRIT/wiki/Building).
 
 
 ## Past examples
