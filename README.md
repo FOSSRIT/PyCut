@@ -14,7 +14,7 @@ You can also find more information about the project on the [SugarLabs wiki](htt
 
 ## Building / Playing
 
-For more information on how to build PyCut, [see the wiki](https://github.com/jflory7/FOSSRIT/wiki/Building).
+For more information on how to build PyCut, [see the wiki](https://github.com/FOSSRIT/pycut/wiki/Building).
 
 
 ## Past examples
