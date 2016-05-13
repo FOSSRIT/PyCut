@@ -7,13 +7,12 @@ class PyCutGame():
     def __init__(self):
         self.data = None
         #pre-inits for pygame?
-        pygame.mixer.pre_init(44100, -16, 1, 512*2)
         pygame.display.init()
+        pygame.display.set_mode((1200, 900), pygame.RESIZABLE)
         pygame.font.init()
-        pygame.mixer.init(44100)
         ########################
         self.screen = pygame.display.get_surface()
-        self.width = 1000
+        self.width = 1200
         self.height = 900
         self.fps = 15
         self.title = "PyCut"

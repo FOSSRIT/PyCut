@@ -4,7 +4,7 @@ from game import PyCutGame as PyCut
 
 def main():
     pygame.init()
-    pygame.display.set_mode((0, 0), pygame.RESIZABLE)
+    pygame.display.set_mode((1200, 900), pygame.RESIZABLE)
     game_instance = PyCut()
     game_instance.run()
 
