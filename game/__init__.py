@@ -6,7 +6,7 @@ class PyCutGame():
     """docstring for PyCutGame"""
     def __init__(self):
         self.data = None
-        #pre-inits for pygame?
+        #pre_inits for pygame?
         pygame.display.init()
         pygame.display.set_mode((1200, 900), pygame.RESIZABLE)
         pygame.font.init()
