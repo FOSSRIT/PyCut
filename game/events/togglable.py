@@ -1,7 +1,7 @@
 import pygame
 from game.objects import STATE
 
-class Clickable():
+class Togglable():
     """docstring for Clickable
         TODO: modify to handle clicked vs released
     """
@@ -10,33 +10,29 @@ class Clickable():
         self.location = (0,0)
         self.width = 0
         self.height = 0
-        self.onLeftClick = None #name of function to call when left clicking
-        self.onRightClick = None #name of function to call when right clicking
+        self.onSelect = None #name of function to call when left clicking        
+        self.onDeselect = None #name of function to call when left clicking
+
         self.initiated = False #mouse pressed
         self.engaged = False #mouse released
-        self.dirty = True
+        self.dirty = True;
 
     def isClicked(self, event):
         if self.inRange(event.pos[0], event.pos[1]):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.initiated = True
-                self.setState(STATE.ACTIVE)
             if self.initiated and (event.type == pygame.MOUSEBUTTONUP):
                 self.engaged = True
         else: #when click or release is detected outside of range make sure this is still not initiated
             self.initiated = False
-            self.setState(STATE.NORMAL)
 
         if self.engaged:
-            if event.button == 1: # left click
-                if self.onLeftClick:
-                    self.onLeftClick()
-            elif event.button == 3: # right click
-                if self.onRightClick:
-                    self.onRightClick()
+            if self.state is STATE.ACTIVE:
+                self.deselect()
+            else: 
+                self.select()
             self.initiated = False
             self.engaged = False
-            self.setState(STATE.NORMAL)
 
     def inRange(self, x, y):
         if ((self.x <= x <= (self.x + self.width)) and
@@ -44,12 +40,24 @@ class Clickable():
             return True
         else:
             return False
+        
+    def select(self):
+        if self.state is STATE.NORMAL:
+                self.setState(STATE.ACTIVE)
+                if self.onSelect:
+                    self.onSelect()
+                    
+    def deselect(self):
+        if self.state is STATE.ACTIVE:
+                self.setState(STATE.NORMAL)
+                if self.onDeselect:
+                    self.onDeselect()
 
-    def setOnLeftClick(self, func):
-        self.onLeftClick = func
-
-    def setOnRightClick(self, func):
-        self.onRightClick = func
+    def setOnSelect(self, func):
+        self.onSelect = func
+        
+    def setOnDeselect(self, func):
+        self.onDeselect = func
         
     def setState(self, state):
         self.state = state

@@ -1,12 +1,11 @@
 import pygame
-from game.events import Clickable, Hoverable
-from . import STATE, STATES, STYLES_NAMES as SM
+from game.events import Togglable
+from . import STATE, STYLES_NAMES as SM
 
-class Button(Clickable, Hoverable):
+class Toggle(Togglable):
     """docstring for Button"""
     def __init__(self, context, label=""):
-        Clickable.__init__(self)
-        Hoverable.__init__(self)
+        Togglable.__init__(self)
         self.context = context
         self.setState(STATE.NORMAL)
         self.label = label
@@ -16,21 +15,11 @@ class Button(Clickable, Hoverable):
         self.width = None
         self.height = None
         self.style = dict()
-        """
-            Attributes that change due to state should be in the for loop below
-        """
-        for state in STATES:
-            self.style[state] = dict()
-            self.style[state][SM.BACKGROUND_IMG] = None
-            self.style[state][SM.BACKGROUND_COLOR] = None
-            #Any styling property with defaulst should be in
-            #the conditional below
-            if state == STATE.NORMAL:
-                self.style[state][SM.COLOR] = (255, 255, 255)
-                self.style[state][SM.PEN] = self.context.font
-            else:
-                self.style[state][SM.COLOR] = None
-                self.style[state][SM.PEN] = None
+        
+        self.checkState(STATE.NORMAL)
+        self.checkState(STATE.ACTIVE)
+        self.checkState(STATE.HOVER)
+        self.checkState(STATE.INACTIVE)
 
         self.drawing = None
         self.draw()
@@ -72,7 +61,7 @@ class Button(Clickable, Hoverable):
             elif self.style[STATE.NORMAL][SM.BACKGROUND_COLOR]:
                 surf.fill(self.style[STATE.NORMAL][SM.BACKGROUND_COLOR])
             if self.style[self.state][SM.BACKGROUND_IMG]:
-                surf.blit(pygame.transform.scale(self.style[self.state][SM.BACKGROUND_IMG], (self.width, self.height)), (0,0), [0, 0, self.width, self.height], special_flags = 0)
+                surf.blit(self.style[self.state][SM.BACKGROUND_IMG], (0,0), [0, 0, self.width, self.height], special_flags = 0)
             elif self.style[STATE.NORMAL][SM.BACKGROUND_IMG]:
                 surf.blit(self.style[STATE.NORMAL][SM.BACKGROUND_IMG], (0,0), [0, 0, self.width, self.height], special_flags = 0)
             text = pen.render(self.label, True, color)
@@ -83,7 +72,7 @@ class Button(Clickable, Hoverable):
         self.drawing = surf
         self.width = self.drawing.get_width()
         self.height = self.drawing.get_height()
-        self.dirty = False;
+        self.dirty = False
 
     """
         draw on a surface

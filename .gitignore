@@ -30,6 +30,9 @@ var/
 *.manifest
 *.spec
 
+# PyCut Logs
+log.txt
+
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
@@ -44,6 +47,8 @@ nosetests.xml
 coverage.xml
 *,cover
 .hypothesis/
+
+venv/
 
 # Translations
 *.mo

@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import pygame
 from game import PyCutGame as PyCut
+import cProfile
 
 def main():
     pygame.init()

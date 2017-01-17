@@ -36,6 +36,22 @@ class Text(Hoverable, Clickable):
                 self.style[state][SM.PEN] = None
         self.drawing = None
         self.draw()
+        
+    """
+        initialize a state.
+    """
+    def checkState(self, state):
+        self.style[state] = dict()
+        self.style[state][SM.BACKGROUND_IMG] = None
+        self.style[state][SM.BACKGROUND_COLOR] = None
+        #Any styling property with defaulst should be in
+        #the conditional below
+        if state == STATE.NORMAL:
+            self.style[state][SM.COLOR] = (0, 128, 0)
+            self.style[state][SM.PEN] = self.context.font
+        else:
+            self.style[state][SM.COLOR] = None
+            self.style[state][SM.PEN] = None
 
     """
         update the text drawing surface.
@@ -50,14 +66,20 @@ class Text(Hoverable, Clickable):
         self.drawing = pen.render(self.text, True, color)
         self.width = self.drawing.get_width()
         self.height = self.drawing.get_height()
+        self.dirty = False
 
     """
         draw on a surface
     """
     def drawOn(self, screen=None):
         if screen:
-            self.draw()
-            screen.blit(self.drawing, self.location)
+            if self.dirty:
+                self.draw()
+            if self.centered:
+                loc = (self.location[0] - self.width / 2, self.location[1])
+                screen.blit(self.drawing, loc)
+            else:
+                screen.blit(self.drawing, self.location)
         else:
             print("Error: drawOn was called on Text object but no screen argument was passed")
 
@@ -66,21 +88,21 @@ class Text(Hoverable, Clickable):
     """
     def setText(self, text):
         self.text = text
-        self.draw()
+        self.dirty = True
 
     """
     change the font size
     """
     def setPen(self, font, state=STATE.NORMAL):
         self.style[state][SM.PEN] = font
-        self.draw()
+        self.dirty = True
 
     """
     change the color
     """
     def setColor(self, color=(0, 128, 0), state=STATE.NORMAL):
         self.style[state][SM.COLOR] = color
-        self.draw()
+        self.dirty = True
 
     """
     x,y are the center points of the text.

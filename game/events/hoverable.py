@@ -16,8 +16,10 @@ class Hoverable():
         self.onHover = None #name of function to call when being hovered over
         self.mousein = False
         self.mouseout = False
+        self.dirty = True
 
     def isHovered(self, event):
+        state = self.state
         if self.inRange(event.pos[0], event.pos[1]):
             self.mouseout = False
             self.mousein = True
@@ -28,6 +30,8 @@ class Hoverable():
             self.mousein = False
             self.mouseout = True
             self.state = STATE.NORMAL
+        if state != self.state:
+            self.dirty = True
 
     def inRange(self, x, y):
         if ((self.x <= x <= (self.x + self.width)) and
