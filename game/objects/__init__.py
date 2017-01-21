@@ -9,7 +9,7 @@ STATES = [STATE.NORMAL, STATE.ACTIVE, STATE.HOVER, STATE.INACTIVE]
 
 class STYLES_NAMES:
     """docstring for STYLES"""
-    COLOR = "color";  
+    COLOR = "color";
     BACKGROUND_IMG = "background_img";
     BACKGROUND_COLOR = "background_color";
     PEN = "pen";

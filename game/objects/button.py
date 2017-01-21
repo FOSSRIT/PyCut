@@ -34,7 +34,7 @@ class Button(Clickable, Hoverable):
 
         self.drawing = None
         self.draw()
-        
+
     """
         initialize a state.
     """

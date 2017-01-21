@@ -16,6 +16,7 @@ class Text(Hoverable, Clickable):
         self.width = None
         self.height = None
         self.style = dict()
+        self.centered = False
         """
             Attributes that change due to state should be in the for loop below
 
@@ -36,7 +37,7 @@ class Text(Hoverable, Clickable):
                 self.style[state][SM.PEN] = None
         self.drawing = None
         self.draw()
-        
+
     """
         initialize a state.
     """
@@ -75,7 +76,7 @@ class Text(Hoverable, Clickable):
         if screen:
             if self.dirty:
                 self.draw()
-            if self.centered:
+            if self.centered or False:
                 loc = (self.location[0] - self.width / 2, self.location[1])
                 screen.blit(self.drawing, loc)
             else:
